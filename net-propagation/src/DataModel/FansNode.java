@@ -18,4 +18,12 @@ public class FansNode {
 		id = _id;
 		p = delay = 0;
 	}
+    /*
+     * 新加的
+     */
+    public FansNode(int _id,double _p,double _delay){
+        id = _id;
+        p = _p;
+        delay=_delay;
+	}
 }
