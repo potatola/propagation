@@ -4,6 +4,7 @@ package netAnalysis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Delayed;
 
 import DataModel.BlogUnit;
 import DataModel.FansNode;
@@ -14,9 +15,16 @@ import DataModel.NodeUnit;
  * @author geng yufeng
  *
  */
-public class DataImport {
-	public List<NodeUnit> initNetwork = new ArrayList<NodeUnit>();
-	public List<BlogUnit> initBlogs = new ArrayList<BlogUnit>();
+public class DataOperation {
+	public static int MAX_NODES_NUM = 100000;
+	
+	public List<NodeUnit> initNetwork;	//网络结构
+	public List<BlogUnit> initBlogs;	//微博数据集
+	
+	public DataOperation(){
+		initNetwork = new ArrayList<NodeUnit>();
+		initBlogs = new ArrayList<BlogUnit>();
+	}
 	
 	public List<NodeUnit> importNetwork(String fileName){
 		System.out.println(">>>Start importing network node file:");

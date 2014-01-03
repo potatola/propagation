@@ -7,7 +7,7 @@ public class main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		DataImport di = new DataImport();
+		DataOperation di = new DataOperation();
 		di.importNetwork("");
 		di.importBlogs("");
 		
