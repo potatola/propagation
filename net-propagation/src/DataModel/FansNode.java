@@ -8,7 +8,7 @@ package DataModel;
 public class FansNode {
 	public int id;			//这里id对应node数组的下标标号
 	public double p;		//节点 v_i 对 v_jv_j 的影响因子 影响因子 ，即 p(j,i )
-	public double delay;	//节点 v_i 对 v_jv_j 的延迟 时
+	public double delay;	//节点 v_i 对 v_jv_j 的延迟时间
 	
 	/**
 	 * 

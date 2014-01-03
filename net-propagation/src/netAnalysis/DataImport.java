@@ -23,15 +23,17 @@ public class DataImport {
 		//TODO
 		//读取爬虫爬取的网络拓扑文件,并保存为NodeUnit数组
 		
-		Random random = new Random(1000);
-		//假设1000个用户节点
-		for(int i=0; i<1000; i++){
-			NodeUnit node = new NodeUnit();
-			//每个用户随即增加不多于100个粉丝
-			for(int j=0; j<random.nextInt(100); j++){
-				node.addFan(new FansNode(random.nextInt(1000)));
+		if(fileName == ""){
+			Random random = new Random(1000);
+			//假设1000个用户节点
+			for(int i=0; i<1000; i++){
+				NodeUnit node = new NodeUnit();
+				//每个用户随即增加不多于100个粉丝
+				for(int j=0; j<random.nextInt(100); j++){
+					node.addFan(new FansNode(random.nextInt(1000)));
+				}
+				initNetwork.add(node);
 			}
-			initNetwork.add(node);
 		}
 		
 
@@ -43,9 +45,11 @@ public class DataImport {
 		System.out.println(">>>Start importing blog file:");
 		//TODO
 		
-		Random random = new Random(1000);
-		for(int i=0; i<10000; i++){
-			initBlogs.add(new BlogUnit(random.nextInt(500), random.nextInt(1000), random.nextInt(1000)));
+		if(fileName == ""){
+			Random random = new Random(1000);
+			for(int i=0; i<10000; i++){
+				initBlogs.add(new BlogUnit(random.nextInt(500), random.nextInt(1000), random.nextInt(1000), random.nextDouble()));
+			}
 		}
 		
 		System.out.println(">>>import finished, "+initBlogs.size()+" blogs added.");
