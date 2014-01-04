@@ -10,12 +10,20 @@ import java.util.List;
  *
  */
 public class NodeUnit {
+	private int id;
 	private boolean isActivated;	//节点是否被感染
 	public double t;			//节点被感染的时间
 	public double p;			//节点被影响因子
 	public List<FansNode> fansNodes;		//节点粉丝节点组成的数组
 	
 	public NodeUnit(){
+		isActivated = false;
+		t = p = 0;
+		fansNodes = new ArrayList<FansNode>();
+	}
+
+	public NodeUnit(int _id){
+		id = _id;
 		isActivated = false;
 		t = p = 0;
 		fansNodes = new ArrayList<FansNode>();
@@ -34,6 +42,7 @@ public class NodeUnit {
 	 */
 	public int addFan(FansNode fan){
 		fansNodes.add(fan);
+		//System.out.println("Node "+id+" added fun:"+fan.id);
 		return fansNodes.size();
 	}
 	public int fansNum(){
