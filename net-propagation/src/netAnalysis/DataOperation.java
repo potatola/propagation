@@ -56,7 +56,8 @@ public class DataOperation {
 		if(fileName == ""){
 			Random random = new Random(1000);
 			for(int i=0; i<10000; i++){
-				initBlogs.add(new BlogUnit(random.nextInt(500), random.nextInt(1000), random.nextInt(1000), random.nextDouble()));
+				initBlogs.add(new BlogUnit(random.nextDouble(), random.nextInt(500),  
+						random.nextInt(1000), random.nextDouble(),random.nextInt(1000), random.nextInt(1000)));
 			}
 		}
 		
