@@ -12,7 +12,7 @@ public class Generator {
 	{
 		for (NodeUnit nodeUnit : nodes) {
 			for (FansNode fanUnit : nodeUnit.fansNodes) {
-				nodes.get(fanUnit.id)
+				nodes.get(fanUnit.id);
 			}
 		}
 		return true;
