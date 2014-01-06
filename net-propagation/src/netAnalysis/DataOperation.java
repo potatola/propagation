@@ -109,11 +109,13 @@ public class DataOperation {
 					String[] items = line.split("\t");
 					DateFormat f = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzzz yyyy", Locale.ENGLISH);
 					Date date1 = f.parse(items[0]);
-					int id1 = Integer.parseInt(items[1]);
+					int id1 = idIdMap.get(Integer.parseInt(items[1]));
 					Date date2 = f.parse(items[3]);
-					int id2 = Integer.parseInt(items[4]);
+					int id2 = idIdMap.get(Integer.parseInt(items[4]));
+					BlogUnit blog = new BlogUnit((double)date1.getTime(), idIdMap.get(id1), items[2], (double)date2.getTime(), idIdMap.get(id2), items[5]);
 
-					initBlogs.add(new BlogUnit((double)date1.getTime(), idIdMap.get(id1), items[2], (double)date2.getTime(), idIdMap.get(id2), items[5]));
+					initBlogs.add(blog);
+					initNetwork.get(id1).addBlog(blog);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
