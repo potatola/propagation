@@ -1,11 +1,13 @@
 package DataModel;
 
+import java.io.Serializable;
+
 /**
  * 一条微博的数据结构
  * @author geng yufeng
  *
  */
-public class BlogUnit {
+public class BlogUnit implements Serializable{
 	public double time;			//微博发布时间
 	public int belongTo;		//微博发布者id
 	public String id;				//微博唯一标识符

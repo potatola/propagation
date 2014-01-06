@@ -1,15 +1,18 @@
 package DataModel;
 
+import java.io.Serializable;
 import java.rmi.activation.ActivateFailedException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.tools.JavaCompiler;
 
 /**
  * 微博用户数据单元
  * @author geng yufeng
  *
  */
-public class NodeUnit {
+public class NodeUnit implements Serializable{
 	private int id;
 	private boolean isActivated;	//节点是否被感染
 	public double t;			//节点被感染的时间
