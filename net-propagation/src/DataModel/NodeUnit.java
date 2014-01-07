@@ -32,6 +32,7 @@ public class NodeUnit implements Serializable{
 		isActivated = false;
 		t = p = 0;
 		fansNodes = new ArrayList<FansNode>();
+		blogUnits = new ArrayList<BlogUnit>();
 	}
 	
 	public int getId(){
