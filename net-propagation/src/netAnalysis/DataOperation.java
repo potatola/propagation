@@ -108,13 +108,14 @@ public class DataOperation {
 		File direct = new File(directName);
 		String[] files = direct.list();
 		for (String fileName : files) {
+			String line = "";
+			String[] items = null;
 			try {
 				int id = Integer.parseInt(fileName.replace(".statuses", ""));
 				BufferedReader reader = new BufferedReader(new FileReader(
 						directName + "\\" + fileName));
-				String line = "";
 				while ((line = reader.readLine()) != null) {
-					String[] items = line.split("\t");
+					items = line.split("\t");
 					DateFormat f = new SimpleDateFormat(
 							"EEE MMM dd HH:mm:ss zzzzz yyyy", Locale.ENGLISH);
 					Date date1 = f.parse(items[0]);
@@ -122,14 +123,22 @@ public class DataOperation {
 					Date date2 = f.parse(items[3]);
 					int id2 = idIdMap.get(Integer.parseInt(items[4]));
 					BlogUnit blog = new BlogUnit((double) date1.getTime(),
-							idIdMap.get(id1), items[2],
-							(double) date2.getTime(), idIdMap.get(id2),
+							id1, items[2],
+							(double) date2.getTime(), id2,
 							items[5]);
 
 					initBlogs.add(blog);
 					initNetwork.get(id1).addBlog(blog);
 				}
-			} catch (Exception e) {
+			} 
+			catch (NullPointerException e){
+				//源节点不在节点列表中
+			}
+			catch (NumberFormatException e) {
+				// TODO: handle exception
+				//数字文本过长（这些数字未出现在源节点中）
+			}
+			catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -142,6 +151,9 @@ public class DataOperation {
 
 	public void sort() {
 		for (NodeUnit node : initNetwork) {
+			if(node.blogUnits==null){
+				System.out.println(node.getId());
+			}
 			Collections.sort(node.blogUnits, new Comparator<BlogUnit>() {
 				@Override
 				public int compare(BlogUnit o1, BlogUnit o2) {

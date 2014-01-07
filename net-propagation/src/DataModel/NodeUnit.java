@@ -34,6 +34,10 @@ public class NodeUnit implements Serializable{
 		fansNodes = new ArrayList<FansNode>();
 	}
 	
+	public int getId(){
+		return id;
+	}
+	
 	public void activate(){
 		isActivated = true;
 	}
