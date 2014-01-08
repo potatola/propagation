@@ -1,10 +1,12 @@
 package netAnalysis;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
@@ -63,6 +65,7 @@ public class DataOperation {
 		}
 
 		try {
+			BufferedWriter output = new BufferedWriter(new FileWriter(new File("D:\\data_op\\ed_node.txt")));
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = "";
 			int count = 0;
@@ -72,15 +75,19 @@ public class DataOperation {
 				int id2 = Integer.parseInt(strints[1]);
 				if (!idIdMap.containsKey(id1)) {
 					idIdMap.put(id1, count++);
+					output.write(""+id1+" "+(count-1)+"\n");
 					initNetwork.add(new NodeUnit(initNetwork.size()));
 				}
 				if (!idIdMap.containsKey(id2)) {
 					idIdMap.put(id2, count++);
+					output.write(""+id2+" "+(count-1)+"\n");
 					initNetwork.add(new NodeUnit(initNetwork.size()));
 				}
 				initNetwork.get(idIdMap.get(id1)).addFan(
 						new FansNode(idIdMap.get(id2)));
 			}
+			reader.close();
+			output.close();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
