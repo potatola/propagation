@@ -13,6 +13,8 @@ public class Generator {
 	static public boolean FactorGenerator(List<NodeUnit> nodes,
 			List<BlogUnit> blogs) {
 		for (NodeUnit nodeUnit : nodes) {
+			double p = 0, d = 0;
+			int cc = 0;
 			for (FansNode fanUnit : nodeUnit.fansNodes) {
 				double count = 0;
 				double delay = 0;
@@ -35,11 +37,21 @@ public class Generator {
 					fanUnit.p = 0;
 				else
 					fanUnit.p = count / nodes.get(fanUnit.id).blogUnits.size();
+				p += fanUnit.p;
 				if(count == 0)
 					fanUnit.delay = 0;
 				else
+				{
 					fanUnit.delay = delay / count;
+					p += fanUnit.p;
+					d += fanUnit.delay;
+					cc++;
+				}
 			}
+			nodeUnit.p1 = p / nodeUnit.fansNodes.size();
+			nodeUnit.p2 = p / cc;
+			nodeUnit.d1 = d / nodeUnit.fansNodes.size();
+			nodeUnit.d2 = d / cc;
 		}
 		return true;
 	}

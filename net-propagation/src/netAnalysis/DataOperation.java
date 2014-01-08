@@ -106,7 +106,8 @@ public class DataOperation {
 			Random random = new Random(1000);
 			for (int i = 0; i < 10000; i++) {
 				initBlogs.add(new BlogUnit(random.nextDouble(), random
-						.nextInt(500), "", random.nextDouble(), random.nextInt(500), ""));
+						.nextInt(500), "", random.nextDouble(), random
+						.nextInt(500), ""));
 			}
 		}
 
@@ -115,7 +116,7 @@ public class DataOperation {
 		int totalBlogCount = 0;
 		int totalFileCount = 0;
 		for (String fileName : files) {
-			totalFileCount ++;
+			totalFileCount++;
 			String line = "";
 			String[] items = null;
 			try {
@@ -123,26 +124,25 @@ public class DataOperation {
 				BufferedReader reader = new BufferedReader(new FileReader(
 						directName + "\\" + fileName));
 				while ((line = reader.readLine()) != null) {
-					totalBlogCount ++;
+					totalBlogCount++;
 					items = line.split("\t");
 					DateFormat f = new SimpleDateFormat(
 							"EEE MMM dd HH:mm:ss zzzzz yyyy", Locale.ENGLISH);
 					Date date1 = f.parse(items[0]);
-					if(!idIdMap.containsKey(items[1])){
-						System.out.println("not found: "+items[1]);
+					if (!idIdMap.containsKey(items[1])) {
+						System.out.println("not found: " + items[1]);
 						continue;
 					}
 					int id1 = idIdMap.get(items[1]);
 					Date date2 = f.parse(items[3]);
 					int id2;
-					if(idIdMap.containsKey(items[4])){
+					if (idIdMap.containsKey(items[4])) {
 						id2 = idIdMap.get(items[4]);
+					} else {
+						id2 = -1;// 无法匹配的用户，肯定是没有用的
 					}
-					else {
-						id2 = -1;//无法匹配的用户，肯定是没有用的
-					}
-					
-					//int id2 = idIdMap.get(Integer.parseInt(items[4]));
+
+					// int id2 = idIdMap.get(Integer.parseInt(items[4]));
 					BlogUnit blog = new BlogUnit((double) date1.getTime(), id1,
 							items[2], (double) date2.getTime(), id2, items[5]);
 
@@ -150,11 +150,11 @@ public class DataOperation {
 					initNetwork.get(id1).addBlog(blog);
 				}
 				reader.close();
-//			} catch (NullPointerException e) {
-//				// 源节点不在节点列表中
-//			} catch (NumberFormatException e) {
-//				// TODO: handle exception
-//				// 数字文本过长（这些数字未出现在源节点中）
+				// } catch (NullPointerException e) {
+				// // 源节点不在节点列表中
+				// } catch (NumberFormatException e) {
+				// // TODO: handle exception
+				// // 数字文本过长（这些数字未出现在源节点中）
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,8 +162,8 @@ public class DataOperation {
 		}
 
 		System.out.println(">>>import finished, " + initBlogs.size()
-				+ " blogs added. Total blogs "+totalBlogCount);
-		System.out.println(">>>files read: "+totalFileCount);
+				+ " blogs added. Total blogs " + totalBlogCount);
+		System.out.println(">>>files read: " + totalFileCount);
 		return initBlogs;
 	}
 
@@ -185,14 +185,20 @@ public class DataOperation {
 	public void save() {
 		ObjectOutputStream oos = null;
 		BufferedWriter ooos = null;
+		BufferedWriter oooos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(
 					"E:\\data_op\\nodes"));
 			ooos = new BufferedWriter(new FileWriter(new File(
 					"E:\\data_op\\nodes.txt")));
+			oooos = new BufferedWriter(new FileWriter(new File(
+					"E:\\data_op\\pd.txt")));
 			for (NodeUnit node : initNetwork) {
 				oos.writeObject(node);
-				ooos.write(node.getId()+": ");
+				ooos.write(node.getId() + ": ");
+				oooos.write(node.getId() + ": p1 = " + node.p1 + " p2 = "
+						+ node.p2 + " d1 = " + node.d1 + " d2 = " + node.d2
+						+ "\n");
 				for (FansNode fans : node.fansNodes) {
 					ooos.write(fans.p + " ");
 				}

@@ -21,6 +21,11 @@ public class NodeUnit implements Serializable{
 	public List<FansNode> fansNodes;		//节点粉丝节点组成的数组
 	public List<BlogUnit> blogUnits;	//节点发布的微博列表
 	
+	public double p1;
+	public double p2;
+	public double d1;
+	public double d2;
+	
 	public NodeUnit(){
 		isActivated = false;
 		t = p = 0;
