@@ -22,7 +22,7 @@ public class main {
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(
-					"E:\\data_op\\nodes"));
+					"E:\\data_op\\nodes1"));
 			while (true) {
 				di.initNetwork.add((NodeUnit) ois.readObject());
 			}
