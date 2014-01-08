@@ -22,7 +22,7 @@ public class main {
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(
-					"D:\\data_op\\nodes"));
+					"E:\\data_op\\nodes"));
 			while (true) {
 				di.initNetwork.add((NodeUnit) ois.readObject());
 			}
@@ -45,8 +45,8 @@ public class main {
 		}
 
 		if (flag) {
-			di.importNetwork("D:\\data_op\\twitter_combined.txt");
-			di.importBlogs("D:\\data_op\\reposts");
+			di.importNetwork("E:\\data_op\\twitter_combined.txt");
+			di.importBlogs("E:\\data_op\\reposts");
 			di.sort();
 			Generator.FactorGenerator(di.initNetwork, di.initBlogs);
 			di.save();

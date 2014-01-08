@@ -66,7 +66,7 @@ public class DataOperation {
 
 		try {
 			BufferedWriter output = new BufferedWriter(new FileWriter(new File(
-					"D:\\data_op\\ed_node.txt")));
+					"E:\\data_op\\ed_node.txt")));
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = "";
 			int count = 0;
@@ -172,16 +172,22 @@ public class DataOperation {
 		BufferedWriter ooos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(
-					"D:\\data_op\\nodes"));
+					"E:\\data_op\\nodes"));
 			ooos = new BufferedWriter(new FileWriter(new File(
-					"D:\\data_op\\nodes.txt")));
+					"E:\\data_op\\nodes.txt")));
 			for (NodeUnit node : initNetwork) {
 				oos.writeObject(node);
-				ooos.write(node.getId()+": ");
+				String res = "";
+				//ooos.write(node.getId()+": ");
 				for (FansNode fans : node.fansNodes) {
-					ooos.write(fans.p + " ");
+					if (fans.p != 0) {
+						res += fans.p;
+					}
+					//ooos.write(fans.p + " ");
 				}
-				ooos.write("\n");
+				if (res != "") {
+					ooos.write(node.getId() + res + "\n");
+				}
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
