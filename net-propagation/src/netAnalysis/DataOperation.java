@@ -65,7 +65,8 @@ public class DataOperation {
 		}
 
 		try {
-			BufferedWriter output = new BufferedWriter(new FileWriter(new File("D:\\data_op\\ed_node.txt")));
+			BufferedWriter output = new BufferedWriter(new FileWriter(new File(
+					"D:\\data_op\\ed_node.txt")));
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String line = "";
 			int count = 0;
@@ -75,12 +76,12 @@ public class DataOperation {
 				int id2 = Integer.parseInt(strints[1]);
 				if (!idIdMap.containsKey(id1)) {
 					idIdMap.put(id1, count++);
-					output.write(""+id1+" "+(count-1)+"\n");
+					output.write("" + id1 + " " + (count - 1) + "\n");
 					initNetwork.add(new NodeUnit(initNetwork.size()));
 				}
 				if (!idIdMap.containsKey(id2)) {
 					idIdMap.put(id2, count++);
-					output.write(""+id2+" "+(count-1)+"\n");
+					output.write("" + id2 + " " + (count - 1) + "\n");
 					initNetwork.add(new NodeUnit(initNetwork.size()));
 				}
 				initNetwork.get(idIdMap.get(id1)).addFan(
@@ -129,23 +130,18 @@ public class DataOperation {
 					int id1 = idIdMap.get(Integer.parseInt(items[1]));
 					Date date2 = f.parse(items[3]);
 					int id2 = idIdMap.get(Integer.parseInt(items[4]));
-					BlogUnit blog = new BlogUnit((double) date1.getTime(),
-							id1, items[2],
-							(double) date2.getTime(), id2,
-							items[5]);
+					BlogUnit blog = new BlogUnit((double) date1.getTime(), id1,
+							items[2], (double) date2.getTime(), id2, items[5]);
 
 					initBlogs.add(blog);
 					initNetwork.get(id1).addBlog(blog);
 				}
-			} 
-			catch (NullPointerException e){
-				//源节点不在节点列表中
-			}
-			catch (NumberFormatException e) {
+			} catch (NullPointerException e) {
+				// 源节点不在节点列表中
+			} catch (NumberFormatException e) {
 				// TODO: handle exception
-				//数字文本过长（这些数字未出现在源节点中）
-			}
-			catch (Exception e) {
+				// 数字文本过长（这些数字未出现在源节点中）
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -158,7 +154,7 @@ public class DataOperation {
 
 	public void sort() {
 		for (NodeUnit node : initNetwork) {
-			if(node.blogUnits==null){
+			if (node.blogUnits == null) {
 				System.out.println(node.getId());
 			}
 			Collections.sort(node.blogUnits, new Comparator<BlogUnit>() {
@@ -173,11 +169,18 @@ public class DataOperation {
 
 	public void save() {
 		ObjectOutputStream oos = null;
+		BufferedWriter ooos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(
 					"D:\\data_op\\nodes"));
+			ooos = new BufferedWriter(new FileWriter(new File(
+					"D:\\data_op\\nodes.txt")));
 			for (NodeUnit node : initNetwork) {
 				oos.writeObject(node);
+				for (FansNode fans : node.fansNodes) {
+					ooos.write(fans.p + "");
+				}
+				ooos.write("\n");
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
