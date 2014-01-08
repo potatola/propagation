@@ -177,8 +177,9 @@ public class DataOperation {
 					"D:\\data_op\\nodes.txt")));
 			for (NodeUnit node : initNetwork) {
 				oos.writeObject(node);
+				ooos.write(node.getId()+": ");
 				for (FansNode fans : node.fansNodes) {
-					ooos.write(fans.p + "");
+					ooos.write(fans.p + " ");
 				}
 				ooos.write("\n");
 			}
