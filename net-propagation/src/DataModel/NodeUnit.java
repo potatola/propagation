@@ -51,6 +51,9 @@ public class NodeUnit implements Serializable{
 	 * @return 返回增加粉丝后的粉丝数
 	 */
 	public int addFan(FansNode fan){
+		if(fansNodes.contains(fan)){
+			return -1;
+		}
 		fansNodes.add(fan);
 		//System.out.println("Node "+id+" added fun:"+fan.id);
 		return fansNodes.size();

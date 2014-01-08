@@ -106,7 +106,7 @@ public class DataOperation {
 			Random random = new Random(1000);
 			for (int i = 0; i < 10000; i++) {
 				initBlogs.add(new BlogUnit(random.nextDouble(), random
-						.nextInt(500), "", random.nextDouble(), "", ""));
+						.nextInt(500), "", random.nextDouble(), random.nextInt(500), ""));
 			}
 		}
 
@@ -134,9 +134,17 @@ public class DataOperation {
 					}
 					int id1 = idIdMap.get(items[1]);
 					Date date2 = f.parse(items[3]);
+					int id2;
+					if(idIdMap.containsKey(items[4])){
+						id2 = idIdMap.get(items[4]);
+					}
+					else {
+						id2 = -1;//无法匹配的用户，肯定是没有用的
+					}
+					
 					//int id2 = idIdMap.get(Integer.parseInt(items[4]));
 					BlogUnit blog = new BlogUnit((double) date1.getTime(), id1,
-							items[2], (double) date2.getTime(), items[4], items[5]);
+							items[2], (double) date2.getTime(), id2, items[5]);
 
 					initBlogs.add(blog);
 					initNetwork.get(id1).addBlog(blog);
