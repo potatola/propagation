@@ -10,6 +10,14 @@ public class StaticStartup extends SimuPropogation {
 
 	
 
+	/**
+	 * 启动模拟
+	 * @param mynodes 网络图
+	 * @param i	要求激活的节点数
+	 * @param d 最大时间约束
+	 * @param j 初始能量
+	 * @param e 节点是否被激活的阈值
+	 */
 	public StaticStartup(List<NodeUnit> mynodes, int i, double d, int j,double e) {
 		super( mynodes,  i, d,  j,  e);
 		// TODO Auto-generated constructor stub

@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 
 import DataModel.NodeUnit;
 import FactorGenerate.Generator;
+import Simulation.StaticStartup;
 
 public class main {
 
@@ -50,6 +51,11 @@ public class main {
 			di.sort();
 			Generator.FactorGenerator(di.initNetwork, di.initBlogs);
 			di.save();
+			
+
+			StaticStartup mypropogation=new StaticStartup(di.initNetwork,3, 100, 1000, 0.2);
+			 int s[]= new int[]{1,2,3,4,5,6,7,8,9,10};
+			 mypropogation.Run(s);
 		}
 
 	}
