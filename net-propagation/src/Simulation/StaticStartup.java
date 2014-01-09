@@ -30,7 +30,11 @@ public class StaticStartup extends SimuPropogation {
 	 * 对应明星广告和网络营销两个模式
 
 	 */
-	public void ActivateNode(ActiveHeapElement e) {		
+	public void ActivateNode(ActiveHeapElement e) {	
+		if(Nodes.get(e.id).isActivated()){
+			return;
+		}
+		//System.out.println(">>Node "+e.id+" activated");
 		int jid=e.id;
 		double tj=e.time;
 		NodeUnit jnode=Nodes.get( jid );
@@ -41,6 +45,9 @@ public class StaticStartup extends SimuPropogation {
 		while(itr.hasNext()){  //遍历粉丝
 			FansNode ifan=itr.next();		
 			int iid= ifan.id;
+			if(!SeenNodes.contains(iid)){
+				SeenNodes.add(iid);
+			}
 			NodeUnit inode=Nodes.get(  iid );
 			//未被激活的节点更新影响因子
 			if ( inode.isActivated()==false ){

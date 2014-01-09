@@ -15,6 +15,7 @@ public abstract class SimuPropogation {
 	public int NodesLimit; //要求激活的节点数
 	
 	public int NumOfActivenodes;//当前已激活的节点数
+	public List<Integer> SeenNodes;//看到过此消息的节点
 	public double CurrentTime;//当前时间
 	public double CurrentEnergy;//当前剩余能量
 	public double theta;//节点是否被激活的阈值
@@ -35,6 +36,7 @@ public abstract class SimuPropogation {
 		this.CurrentTime=0;
 		this.CurrentEnergy=EnergyLimit;
 		this.theta=theta;
+		this.SeenNodes = new ArrayList<Integer>();
 		ActiveHeap=new PriorityQueue<ActiveHeapElement>(NodesLimit,acomparator);
 		DeclineHeap=new PriorityQueue<DeclineHeapElement>(NodesLimit,dcomparator);		
 	}
@@ -69,19 +71,19 @@ public abstract class SimuPropogation {
 		boolean dC=true;
 		boolean queueC=true;
 		if (nodesC && (NumOfActivenodes >=NodesLimit) ){
-			System.out.println("到了限定节点数"+NodesLimit+"。已经感染了"+NumOfActivenodes+"个节点，用时"+CurrentTime);
+			//System.out.println("到了限定节点数"+NodesLimit+"。已经感染了"+NumOfActivenodes+"个节点，"+SeenNodes.size()+"个节点看到，用时"+CurrentTime);
 			nodesC= false;
 		}
 		if (timeC && (CurrentTime>=TimeLimit) ){
-			System.out.println(CurrentTime+"已经到了限定时间"+", 感染了"+NumOfActivenodes+"个节点");	
+			//System.out.println(CurrentTime+"已经到了限定时间"+", 感染了"+NumOfActivenodes+"个节点"+SeenNodes.size()+"个节点看到");	
 			timeC=false;
 		}
 		if (dC && (CurrentEnergy<=0) ){
-			System.out.println("能量已经用完了。感染了"+NumOfActivenodes+"个节点，用时"+CurrentTime);	
+			//System.out.println("能量已经用完了。感染了"+NumOfActivenodes+"个节点，"+SeenNodes.size()+"个节点看到，用时"+CurrentTime);	
 			dC=false;
 		}
 		if (queueC && ActiveHeap.isEmpty() ){
-			System.out.println("没有活节点啦。感染了"+NumOfActivenodes+"个节点，用时"+CurrentTime);	
+			System.out.println("没有活节点啦。感染了"+NumOfActivenodes+"个节点，"+SeenNodes.size()+"个节点看到，用时"+CurrentTime);	
 			queueC=false;
 		}
 		return (nodesC || timeC || dC) &&queueC;			

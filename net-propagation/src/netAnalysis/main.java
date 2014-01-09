@@ -14,6 +14,11 @@ import Simulation.StaticStartup;
 
 public class main {
 
+	static final int DAV = 0;
+	static final int DAV_OPT = 3;
+	static final int XIAOMI = 1;
+	static final int CHOUJIANG = 2;
+
 	public static int Day = 1440;
 	/**
 	 * @param args
@@ -56,16 +61,19 @@ public class main {
 
 		}
 		System.out.println(">>>读文件结束");
-		di.dataMining();
 		
-		StaticStartup mypropogation=new StaticStartup(di.initNetwork,1000, 10*Day, 100000, 0.01);
-		 int s[]= new int[1000];
-		 Random random = new Random(1000);
-		 for(int i=0; i<1000; i++){
-			 s[i] = random.nextInt(80000);
-		 }
-		 //mypropogation.Run(s);
-
+		//di.dataMining();
+		int[] es = {500,1000,1500,2000};
+		for(int i:es){
+			System.out.println(">>>simulating with "+i+" energy");
+			for(NodeUnit node:di.initNetwork){
+				node.diactivate();
+			}
+			StaticStartup mypropogation=new StaticStartup(di.initNetwork,1000, 10*Day, 100000, 0.0005);
+			 int s[]= di.generateInit(XIAOMI, i);
+			 mypropogation.Run(s);
+		}
+		 
 	}
 
 }

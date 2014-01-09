@@ -52,6 +52,10 @@ public class NodeUnit implements Serializable{
 		return avgp;
 	}
 	
+	public void diactivate(){
+		isActivated = false;
+	}
+	
 	public int getId(){
 		return id;
 	}

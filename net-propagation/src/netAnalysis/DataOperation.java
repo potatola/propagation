@@ -37,6 +37,7 @@ public class DataOperation {
 	public static int MAX_NODES_NUM = 100000;
 
 	public List<NodeUnit> initNetwork; // 网络结构
+	public List<NodeUnit> degreeNodes; // 网络结构
 	public List<BlogUnit> initBlogs; // 微博数据集
 
 	private HashMap<String, Integer> idIdMap;
@@ -44,6 +45,9 @@ public class DataOperation {
 	public DataOperation() {
 		initNetwork = new ArrayList<NodeUnit>();
 		initBlogs = new ArrayList<BlogUnit>();
+		
+
+		degreeNodes = new ArrayList<NodeUnit>();
 
 		idIdMap = new HashMap<String, Integer>();
 	}
@@ -58,23 +62,69 @@ public class DataOperation {
 			if(!file.exists()){
 				file.createNewFile();
 			}
+			File file1 = new File("E:\\data_op\\degree_count.txt");
+			if(!file1.exists()){
+				file1.createNewFile();
+			}
+			File file2 = new File("E:\\data_op\\p_count.txt");
+			if(!file2.exists()){
+				file2.createNewFile();
+			}
 			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			BufferedWriter doutput = new BufferedWriter(new FileWriter(file1));
+			BufferedWriter poutput = new BufferedWriter(new FileWriter(file2));
 			DecimalFormat df = new DecimalFormat("###0.0#########");
 			//output.write("节点编号\t度\t微博数\n");
 			int edgeCount = 0;
 			int max_degree = 0, max_i=0;
+			double avgp = 0;
+			int degreeCount[] = new int[1500];
+			int pCount[] = new int[1500];
+			for(int i=0; i<1500; i++){
+				degreeCount[i]=pCount[i]=0; 
+			}
 			for(NodeUnit node : initNetwork){
 				edgeCount += node.fansNum();
+				degreeCount[node.fansNum()]++;
+				double p = node.averageP();
+				avgp += p;
+				int countedP = (int)(p*1000);
+				pCount[countedP]++;
+				
 				if(node.fansNum() > max_degree){
 					max_degree = node.fansNum();
 					max_i = node.getId();
 				}
-				output.write(node.getId()+" "+node.fansNum()+" "+df.format(node.averageP())+"\n");
+				output.write(node.getId()+" "+node.fansNum()+" "+df.format(p)+" "+countedP+"\n");
 			}
 			System.out.println("Total nodes:"+initNetwork.size()+",total edges:"
 					+edgeCount+",average degree:"+(double)edgeCount/initNetwork.size()
-					+",max degree:"+max_i+":"+max_degree);
+					+",max degree:"+max_i+":"+max_degree+",average p:"+avgp/initNetwork.size());
 			output.close();
+			
+			//输出度分布、p分布信息
+			int degreeP=0, pP=0;
+			for(int i=1499; i>=0; i--){
+				if (degreeCount[i]!=0) {
+					degreeP=i;
+					break;
+				}
+			}
+			for(int i=1499; i>=0; i--){
+				if (pCount[i]!=0) {
+					pP=i;
+					break;
+				}
+			}
+			for(int i=0; i<=degreeP; i++){
+				doutput.write(i+" "+degreeCount[i]+"\n");
+			}
+			for(int i=0; i<=pP; i++){
+				poutput.write(i+" "+pCount[i]+"\n");
+			}
+			doutput.close();
+			poutput.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -249,5 +299,84 @@ public class DataOperation {
 				ex.printStackTrace();
 			}
 		}
+	}
+	
+	public int[] generateInit(int type, int energy){
+		System.out.println(">>>Start generating init nodes");
+		List<Integer> init = new ArrayList<Integer>();
+		
+		//只搜索度不小于20的节点！！！
+		for(NodeUnit node : initNetwork){
+			if(node.fansNum() >= 20){
+				degreeNodes.add(node);
+			}
+		}
+		
+		switch (type) {
+		case main.DAV:
+			while(energy >= 100){
+				int currMax=0, currI=0;
+				for(NodeUnit node : degreeNodes){
+					if(node.fansNum()<=energy && !init.contains(node.fansNum())){
+						if(node.fansNum()>currMax){
+							currMax = node.fansNum();
+							currI = node.getId();
+						}
+					}
+				}
+				init.add(currI);
+				energy -= currMax;
+			}
+			break;
+
+		case main.DAV_OPT:
+			while(energy >= 100){
+				int currI=0;
+				double dec = 0.5;
+				while(currI == 0){
+					double currMax=0;
+					for(NodeUnit node : degreeNodes){
+						if(node.fansNum()<=energy && node.fansNum() >= dec*energy 
+								&& !init.contains(node.fansNum())){
+							if(node.averageP()>currMax){
+								currMax = node.averageP();
+								currI = node.getId();
+							}
+						}
+					}
+					dec /= 2;
+				}
+				init.add(currI);
+				energy -= initNetwork.get(currI).fansNum();
+			}
+			break;
+			
+		case main.XIAOMI:
+			Random random = new Random((new Date()).getTime());
+			while(energy >= 20){
+				NodeUnit node = degreeNodes.get(random.nextInt(degreeNodes.size()));
+				//fansNum 不能大于100（平民节点）
+				if(init.contains(node.getId()) || node.fansNum()>100){
+					continue;
+				}
+				init.add(node.fansNum());
+				energy -= node.fansNum();
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+		int[] initl = new int[init.size()];
+		for(int i=0; i<init.size(); i++){
+			initl[i] = init.get(i).intValue(); 
+		}
+		System.out.print("\tUsing init nodes:");
+		for(int i : init){
+			System.out.print(i+" ");
+		}
+		System.out.println("\n>>>End generating init nodes");
+		return initl;
 	}
 }
