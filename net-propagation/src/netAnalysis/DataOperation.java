@@ -356,10 +356,10 @@ public class DataOperation {
 			while(energy >= 20){
 				NodeUnit node = degreeNodes.get(random.nextInt(degreeNodes.size()));
 				//fansNum 不能大于100（平民节点）
-				if(init.contains(node.getId()) || node.fansNum()>100){
+				if(init.contains(node.fansNum()) || node.fansNum()>100){
 					continue;
 				}
-				init.add(node.fansNum());
+				init.add(node.getId());
 				energy -= node.fansNum();
 			}
 			break;
