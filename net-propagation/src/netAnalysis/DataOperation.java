@@ -295,6 +295,10 @@ public class DataOperation {
 			try {
 				if (oos != null)
 					oos.close();
+				if (ooos != null)
+					ooos.close();
+				if(oooos != null)
+					oooos.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}

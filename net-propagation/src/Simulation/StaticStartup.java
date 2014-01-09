@@ -45,6 +45,8 @@ public class StaticStartup extends SimuPropogation {
 		NumOfActivenodes += 1;
 		System.out.println(">>>>No " + NumOfActivenodes + " 激活节点id:" + jid
 				+ " 时间:" + tj);
+		if(tj < 7200)
+			count[(int) (tj / 10)]++;
 		CurrentTime = tj;
 		Iterator<FansNode> itr = jnode.fansNodes.iterator();
 		while (itr.hasNext()) { // 遍历粉丝
