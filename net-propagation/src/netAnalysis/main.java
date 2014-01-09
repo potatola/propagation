@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Random;
 
 import DataModel.NodeUnit;
 import FactorGenerate.Generator;
@@ -13,6 +14,7 @@ import Simulation.StaticStartup;
 
 public class main {
 
+	public static int Day = 1440;
 	/**
 	 * @param args
 	 */
@@ -23,7 +25,7 @@ public class main {
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(
-					"E:\\data_op\\nodes1"));
+					"E:\\data_op\\nodes"));
 			while (true) {
 				di.initNetwork.add((NodeUnit) ois.readObject());
 			}
@@ -51,12 +53,18 @@ public class main {
 			di.sort();
 			Generator.FactorGenerator(di.initNetwork, di.initBlogs);
 			di.save();
-			
 
-			StaticStartup mypropogation=new StaticStartup(di.initNetwork,3, 100, 1000, 0.2);
-			 int s[]= new int[]{1,2,3,4,5,6,7,8,9,10};
-			 mypropogation.Run(s);
 		}
+		System.out.println(">>>读文件结束");
+		di.dataMining();
+		
+		StaticStartup mypropogation=new StaticStartup(di.initNetwork,1000, 10*Day, 100000, 0.01);
+		 int s[]= new int[1000];
+		 Random random = new Random(1000);
+		 for(int i=0; i<1000; i++){
+			 s[i] = random.nextInt(80000);
+		 }
+		 //mypropogation.Run(s);
 
 	}
 

@@ -45,6 +45,38 @@ public class DataOperation {
 
 		idIdMap = new HashMap<String, Integer>();
 	}
+	
+	/**
+	 * 数据特征分析
+	 */
+	public void dataMining(){
+		//输出度分布、转发状态数
+		try {
+			File file = new File("E:\\data_op\\node_info.txt");
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			output.write("节点编号\t度\t微博数\n");
+			int edgeCount = 0;
+			int max_degree = 0, max_i=0;
+			for(NodeUnit node : initNetwork){
+				edgeCount += node.fansNum();
+				if(node.fansNum() > max_degree){
+					max_degree = node.fansNum();
+					max_i = node.getId();
+				}
+				output.write(node.getId()+"\t"+node.fansNum()+"\t"+node.blogUnits.size()+"\n");
+			}
+			System.out.println("Total nodes:"+initNetwork.size()+",total edges:"
+					+edgeCount+",average degree:"+(double)edgeCount/initNetwork.size()
+					+",max degree:"+max_i+":"+max_degree);
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public List<NodeUnit> importNetwork(String fileName) {
 		System.out.println(">>>Start importing network node file:");
@@ -143,8 +175,8 @@ public class DataOperation {
 					}
 
 					// int id2 = idIdMap.get(Integer.parseInt(items[4]));
-					BlogUnit blog = new BlogUnit((double) date1.getTime(), id1,
-							items[2], (double) date2.getTime(), id2, items[5]);
+					BlogUnit blog = new BlogUnit((double) date1.getTime()/60000, id1,
+							items[2], (double) date2.getTime()/60000, id2, items[5]);
 
 					initBlogs.add(blog);
 					initNetwork.get(id1).addBlog(blog);

@@ -69,11 +69,11 @@ public abstract class SimuPropogation {
 		boolean dC=true;
 		boolean queueC=true;
 		if (nodesC && (NumOfActivenodes >=NodesLimit) ){
-			System.out.println("到了限定节点数了。已经感染了"+NumOfActivenodes+"个节点，用时"+CurrentTime);
+			System.out.println("到了限定节点数"+NodesLimit+"。已经感染了"+NumOfActivenodes+"个节点，用时"+CurrentTime);
 			nodesC= false;
 		}
 		if (timeC && (CurrentTime>=TimeLimit) ){
-			System.out.println("已经到了限定时间"+CurrentTime+", 感染了"+NumOfActivenodes+"个节点");	
+			System.out.println(CurrentTime+"已经到了限定时间"+", 感染了"+NumOfActivenodes+"个节点");	
 			timeC=false;
 		}
 		if (dC && (CurrentEnergy<=0) ){
