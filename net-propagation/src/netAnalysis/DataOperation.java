@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.security.interfaces.DSAKey;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +59,8 @@ public class DataOperation {
 				file.createNewFile();
 			}
 			BufferedWriter output = new BufferedWriter(new FileWriter(file));
-			output.write("节点编号\t度\t微博数\n");
+			DecimalFormat df = new DecimalFormat("###0.0#########");
+			//output.write("节点编号\t度\t微博数\n");
 			int edgeCount = 0;
 			int max_degree = 0, max_i=0;
 			for(NodeUnit node : initNetwork){
@@ -66,7 +69,7 @@ public class DataOperation {
 					max_degree = node.fansNum();
 					max_i = node.getId();
 				}
-				output.write(node.getId()+"\t"+node.fansNum()+"\t"+node.blogUnits.size()+"\n");
+				output.write(node.getId()+" "+node.fansNum()+" "+df.format(node.averageP())+"\n");
 			}
 			System.out.println("Total nodes:"+initNetwork.size()+",total edges:"
 					+edgeCount+",average degree:"+(double)edgeCount/initNetwork.size()

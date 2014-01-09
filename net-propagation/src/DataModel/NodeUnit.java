@@ -41,6 +41,17 @@ public class NodeUnit implements Serializable{
 		blogUnits = new ArrayList<BlogUnit>();
 	}
 	
+	public double averageP(){
+		double avgp = 0;
+		for(FansNode fan: fansNodes){
+			avgp += fan.p;
+		}
+		if(fansNum() == 0)
+			return 0;
+		avgp = avgp / fansNum();
+		return avgp;
+	}
+	
 	public int getId(){
 		return id;
 	}
