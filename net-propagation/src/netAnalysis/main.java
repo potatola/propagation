@@ -63,7 +63,7 @@ public class main {
 		System.out.println(">>>读文件结束");
 		
 		//di.dataMining();
-		int[] es = {500,1000,1500,2000};
+		int[] es = {500};
 		for(int i:es){
 			System.out.println(">>>simulating with "+i+" energy");
 			for(NodeUnit node:di.initNetwork){
