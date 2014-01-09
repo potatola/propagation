@@ -32,7 +32,7 @@ public class test {
 		 StaticStartup mypropogation=new StaticStartup(mynodes,3, 1.0, 10, 0.3);
 		 int s[]= new int[]{0};
 		 int s2[]= new int[]{1};
-		 mypropogation.Run(s);	
+		 mypropogation.Run(s, "");	
 		 
 	 }
 

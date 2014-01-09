@@ -63,7 +63,7 @@ public class main {
 		System.out.println(">>>读文件结束");
 		
 		//di.dataMining();
-		int[] es = {500,1000,1500,2000};
+		int[] es = {500, 1000, 1500, 2000};
 		for(int i:es){
 			System.out.println(">>>simulating with "+i+" energy");
 			for(NodeUnit node:di.initNetwork){
@@ -71,7 +71,7 @@ public class main {
 			}
 			StaticStartup mypropogation=new StaticStartup(di.initNetwork,1000, 10*Day, 100000, 0.0005);
 			 int s[]= di.generateInit(XIAOMI, i);
-			 mypropogation.Run(s);
+			 mypropogation.Run(s, i+".txt");
 		}
 		 
 	}
